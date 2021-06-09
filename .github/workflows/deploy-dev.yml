@@ -28,7 +28,7 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "Running *Dev Deploy* on $GITHUB_REPOSITORY."
+                  "text": "Running *Dev Deploy* on ${GITHUB_REPOSITORY}."
                 }
               }
             ]
