@@ -1,0 +1,34 @@
+### Deploy pantheon branch to Pantheon dev environment
+
+name: Dev Deploy
+
+on:
+  workflow_dispatch;
+  push:
+    branches:
+      - pantheon
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DEPLOY_REPO: ${{ secrets.DEV_DEPLOY_REPO }}
+      SERVER_TYPE: Development
+
+    steps:
+      - name: Slack notification
+        uses: tokorom/action-slack-incoming-webhook@master
+	env:
+	  INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}
+	with:
+	  blocks: |
+	    [
+	      {
+	        "type": "section",
+		"text": {
+		  "type": "mrkdwn",
+		  "text": "A message from the *Dev Deploy* action. *Huzzah!* :tada:"
+		}
+              }
+	    ]
