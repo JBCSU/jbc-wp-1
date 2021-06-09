@@ -3,7 +3,7 @@
 name: Dev Deploy
 
 on:
-  workflow_dispatch;
+  workflow_dispatch:
   push:
     branches:
       - pantheon
