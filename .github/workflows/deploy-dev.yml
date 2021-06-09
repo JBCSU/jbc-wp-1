@@ -28,7 +28,7 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "A message from the *Dev Deploy* action. *Huzzah!* :tada:"
+                  "text": "Running *Dev Deploy* on ${{ env.GITHUB_REPOSITORY }}."
                 }
               }
             ]
