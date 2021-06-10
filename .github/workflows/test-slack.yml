@@ -18,25 +18,25 @@ jobs:
       with:
         blocks: |
           [
-        		{
-        			"type": "header",
-	        		"text": {
-	        			"type": "plain_text",
-	        			"text": "Deploy to Pantheon",
-        				"emoji": true
-        			}
-        		},
-        		{
-        			"type": "section",
-        			"fields": [
-        				{
-	        				"type": "mrkdwn",
-	        				"text": "*Repo*\n${{ github.repository }}"
-	        			},
-	        			{
-		        			"type": "mrkdwn",
-	        				"text": "*Branch*\n${{ steps.extract_branch.outputs.branch }}"
-	        			}
-        			]
-        		}
+            {
+              "type": "header",
+              "text": {
+                "type": "plain_text",
+                "text": "Deploy to Pantheon",
+                "emoji": true
+              }
+            },
+            {
+              "type": "section",
+              "fields": [
+                {
+                  "type": "mrkdwn",
+                  "text": "*Repo*\n${{ github.repository }}"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Branch*\n${{ steps.extract_branch.outputs.branch }}"
+                }
+              ]
+            }
           ]
