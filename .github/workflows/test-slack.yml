@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
   
     env:
-      INCOMING_WEBHOOK_URL: https://hooks.slack.com/services/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
+      INCOMING_WEBHOOK_URL: "https://hooks.slack.com/services/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"
 
     steps:
       - name: Slack msg 1
