@@ -9,34 +9,34 @@ jobs:
   test:
     runs-on: ubuntu-latest
   
-  env:
-    INCOMING_WEBHOOK_URL: https://hooks.slack.com/services/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
+    env:
+      INCOMING_WEBHOOK_URL: https://hooks.slack.com/services/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
 
-  steps:
-    - name: Slack msg 1
-      uses: tokorom/action-slack-incoming-webhook@v1.1.4
-      with:
-        blocks: |
-          [
-            {
-              "type": "header",
-              "text": {
-                "type": "plain_text",
-                "text": "Deploy to Pantheon",
-                "emoji": true
-              }
-            },
-            {
-              "type": "section",
-              "fields": [
-                {
-                  "type": "mrkdwn",
-                  "text": "*Repo*\n${{ github.repository }}"
-                },
-                {
-                  "type": "mrkdwn",
-                  "text": "*Branch*\n${{ steps.extract_branch.outputs.branch }}"
+    steps:
+      - name: Slack msg 1
+        uses: tokorom/action-slack-incoming-webhook@v1.1.4
+        with:
+          blocks: |
+            [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "Deploy to Pantheon",
+                  "emoji": true
                 }
-              ]
-            }
-          ]
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Repo*\n${{ github.repository }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Branch*\n${{ steps.extract_branch.outputs.branch }}"
+                  }
+                ]
+              }
+            ]
