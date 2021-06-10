@@ -152,6 +152,7 @@ jobs:
                 "text": {
                   "type": "mrkdwn",
                   "text": "*${{ env.SERVER_TYPE }} Deployment Canceled*"
+                  "text": "Running *Dev Deploy* on ${{ github.repository }}."
                 }
               }
             ]
