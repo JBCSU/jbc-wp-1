@@ -19,7 +19,7 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
 
-      - name: Slack msg 1
+      - name: Slack start
         uses: tokorom/action-slack-incoming-webhook@v1.1.4
         with:
           blocks: |
@@ -28,8 +28,7 @@ jobs:
                 "type": "header",
                 "text": {
                   "type": "plain_text",
-                  "text": "Deploy to Pantheon",
-                  "emoji": true
+                  "text": "Deploy to Pantheon"
                 }
               },
               {
@@ -44,5 +43,69 @@ jobs:
                     "text": "*Branch*\n${{ steps.extract_branch.outputs.branch }}"
                   }
                 ]
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Initiated by*\n${{ github.actor }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Initiating event*\n${{ github.event_name }}"
+                  }
+                ]
               }
             ]
+
+      - name: Slack Success
+        uses: tokorom/action-slack-incoming-webhook@v1.1.4
+        with:
+          blocks: |
+            [
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Status*\n:white_check_mark: Success"
+                  }
+                ]
+              }
+            ]
+        if: ${{ success() }}
+
+      - name: Slack Failure
+        uses: tokorom/action-slack-incoming-webhook@v1.1.4
+        with:
+          blocks: |
+            [
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Status*\n:x: Failed"
+                  }
+                ]
+              }
+            ]
+        if: ${{ failure() }}
+
+      - name: Slack Cancelled
+        uses: tokorom/action-slack-incoming-webhook@v1.1.4
+        with:
+          blocks: |
+            [
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Status*\n:stop: Cancelled"
+                  }
+                ]
+              }
+            ]
+        if: ${{ cancelled() }}
