@@ -143,6 +143,9 @@ jobs:
                     "text": "*Status*\n:white_check_mark: Success"
                   }
                 ]
+              },
+              {
+                "type": "divider"
               }
             ]
 
@@ -161,6 +164,9 @@ jobs:
                     "text": "*Status*\n:x: Failed"
                   }
                 ]
+              },
+              {
+                "type": "divider"
               }
             ]
 
@@ -181,5 +187,8 @@ jobs:
                     "text": "*Status*\n:stop: Cancelled"
                   }
                 ]
+              },
+              {
+                "type": "divider"
               }
             ]
