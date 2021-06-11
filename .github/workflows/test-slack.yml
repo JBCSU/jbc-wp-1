@@ -72,6 +72,9 @@ jobs:
                     "text": "*Status*\n:white_check_mark: Success"
                   }
                 ]
+              },
+              {
+                "type": "divider"
               }
             ]
         if: ${{ success() }}
@@ -89,6 +92,9 @@ jobs:
                     "text": "*Status*\n:x: Failed"
                   }
                 ]
+              },
+              {
+                "type": "divider"
               }
             ]
         if: ${{ failure() }}
@@ -106,6 +112,9 @@ jobs:
                     "text": "*Status*\n:stop: Cancelled"
                   }
                 ]
+              },
+              {
+                "type": "divider"
               }
             ]
         if: ${{ cancelled() }}
