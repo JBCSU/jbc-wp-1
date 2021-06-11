@@ -17,6 +17,7 @@ jobs:
       DEPLOY_FOLDER: ./deploy
       DEPLOY_REPO: ${{ secrets.DEV_DEPLOY_REPO }}
       SERVER_TYPE: Development
+      INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}
 
     steps:
       ### Setup
@@ -28,17 +29,41 @@ jobs:
 
       - name: Slack notification
         uses: tokorom/action-slack-incoming-webhook@v1.1.4
-        env:
-          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}
         with:
           blocks: |
             [
               {
-                "type": "section",
+                "type": "header",
                 "text": {
-                  "type": "mrkdwn",
-                  "text": 'Starting deploy of ${{ github.repository }}, ${{ steps.extract_branch.outputs.branch }} branch, to Pantheon'
+                  "type": "plain_text",
+                  "text": "Deploy to Pantheon"
                 }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Repo*\n${{ github.repository }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Branch*\n${{ steps.extract_branch.outputs.branch }}"
+                  }
+                ]
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Initiated by*\n${{ github.actor }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Initiating event*\n${{ github.event_name }}"
+                  }
+                ]
               }
             ]
 
@@ -103,43 +128,43 @@ jobs:
 
       ### Notify Slack
 
-      - name: Slack notification
+      - name: Slack - success
         if: ${{ success() }}
         uses: tokorom/action-slack-incoming-webhook@v1.1.4
         continue-on-error: true
-        env:
-          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}
         with:
           blocks: |
             [
               {
                 "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": ":white_check_mark: The `${{ steps.extract_branch.outputs.branch }}` branch of ${{ github.repository }} has been deployed to Pantheon."
-                }
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Status*\n:white_check_mark: Success"
+                  }
+                ]
               }
             ]
 
-      - name: Slack notification
+      - name: Slack - failure
         if: ${{ failure() }}
         uses: tokorom/action-slack-incoming-webhook@v1.1.4
         continue-on-error: true
-        env:
-          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}
         with:
           blocks: |
             [
               {
                 "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": ":out: *${{ env.SERVER_TYPE }} Deployment of ${{ github.repository }} failed*"
-                }
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Status*\n:x: Failed"
+                  }
+                ]
               }
             ]
 
-      - name: Slack notification
+      - name: Slack - cancelled
         if: ${{ cancelled() }}
         uses: tokorom/action-slack-incoming-webhook@v1.1.4
         continue-on-error: true
@@ -150,10 +175,11 @@ jobs:
             [
               {
                 "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": ":octagonal_sign: *${{ env.SERVER_TYPE }} Deployment of ${{ github.repository }} canceled*"
-                  "text": "Running *Dev Deploy* on."
-                }
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Status*\n:stop: Cancelled"
+                  }
+                ]
               }
             ]
